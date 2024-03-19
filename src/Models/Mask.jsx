@@ -144,6 +144,11 @@ const Mask = ({ isRotating, setIsRotating, setCurrentStage, ...props }) => {
                     setCurrentStage(null);
             }
         }
+
+        // Auto-rotation
+        // robotMaskref.current.rotation.x += 0.003 * Math.PI;
+        robotMaskref.current.rotation.y += 0.002 * Math.PI;
+        // robotMaskref.current.rotation.x += 0.002 * Math.PI;
     });
 
     return (
