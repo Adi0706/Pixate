@@ -13,7 +13,7 @@ function Home() {
 
   const adjustMakSize = () => {
     let screenScale = [1, 1, 1];
-    let screenPosition = [-14.5, 0.5, -33]; // Adjust the x position here
+    let screenPosition = [-2.5, 0.5, -33]; // Adjust the x position here
     let rotation = [0.1, 4.7, 0];
 
     if (window.innerWidth < 768) {
@@ -62,3 +62,4 @@ function Home() {
 }
 
 export default Home;
+
