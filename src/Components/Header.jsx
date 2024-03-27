@@ -1,19 +1,27 @@
-import React from 'react'
-import logo from '../Media/pixellogo.png'
-import {NavLink} from 'react-router-dom'
+import React from 'react';
+import logo from '../Media/pixellogo.png';
+import { NavLink, useLocation } from 'react-router-dom';
 
 function Header() {
-  return (
-    <>
-    <nav className='mt-0 shadow-md h-auto '>
-        <ul className='flex items-center justify-between'>
-          <NavLink to="/">
-          <li className='flex gap-2 items-center text-black text-3xl font-bold p-3'><img src={logo} alt="piaxate-logo" className='w-14 h-12 pl-2'></img><span>PIXATE</span></li></NavLink> 
-         <NavLink to="/generateImage"><li className='pr-12'><button>Generate</button></li></NavLink> 
-        </ul>
-    </nav>
-    </>
-  )
+    const location = useLocation();
+
+    return (
+        <nav className='mt-0 shadow-md h-auto '>
+            <ul className='flex items-center justify-between'>
+                <NavLink to="/">
+                    <li className='flex gap-2 items-center text-black text-3xl font-bold p-3'>
+                        <img src={logo} alt="pixate-logo" className='w-14 h-12 pl-2' />
+                        <span>PIXATE</span>
+                    </li>
+                </NavLink>
+                <li className='pr-12'>
+                    <button>
+                        {location.pathname === '/pixate' ? <NavLink to="/generateImage">Generate</NavLink> : <NavLink to="/pixate">Home</NavLink> }
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    );
 }
 
-export default Header
+export default Header;
