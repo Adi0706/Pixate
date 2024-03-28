@@ -16,7 +16,29 @@ function GenerateImage() {
   const [generatingImage, setGeneratingImage] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const generateImage = () => {};
+  const generateImage = async() => {
+    if(form.prompt){
+      try{
+        setGeneratingImage(true);
+        const response = await fetch("http://localhost:3001/api/v1/pixate",{
+          method:"POST",
+          headers:{
+            'Content-Type':"application/json"
+          },
+          body:JSON.stringify({prompt:form.prompt})
+        })
+        const data = await response.json() ; 
+        setForm({...form,image:`data:image/jpeg;base64,${data.image}`})
+      }catch(error){
+        alert(error)
+      }finally{
+        setGeneratingImage(false)
+      }
+    }else{
+      alert("pls enter a prompt")
+    }
+  };
+
   const handleSubmit = () => {};
   const handleChange = (e) => {
     setForm({...form,[e.target.name]:e.target.value})
