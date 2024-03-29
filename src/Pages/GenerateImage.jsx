@@ -5,6 +5,7 @@ import Loading from "../Components/Loading";
 import { getRandomPrompt } from "../Utils/randomPrompts";
 import preview from "../Media/preview.png";
 import Header from "../Components/Header";
+import axios from 'axios';
 
 function GenerateImage() {
   const navigate = useNavigate();
@@ -16,28 +17,41 @@ function GenerateImage() {
   const [generatingImage, setGeneratingImage] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const generateImage = async() => {
-    if(form.prompt){
-      try{
-        setGeneratingImage(true);
-        const response = await fetch("http://localhost:3001/api/v1/pixate",{
-          method:"POST",
-          headers:{
-            'Content-Type':"application/json"
-          },
-          body:JSON.stringify({prompt:form.prompt})
-        })
-        const data = await response.json() ; 
-        setForm({...form,image:`data:image/jpeg;base64,${data.image}`})
-      }catch(error){
-        alert(error)
-      }finally{
-        setGeneratingImage(false)
+
+
+const generateImage = async () => {
+  if (form.prompt) {
+    try {
+      setGeneratingImage(true);
+      const response = await axios.post("http://localhost:5000/api/v1/pixate", {
+        prompt: form.prompt
+      }, {
+        headers: {
+          'Content-Type': "application/json"
+        }
+      });
+      
+      if (!response.status === 200) {
+        throw new Error('Failed to fetch image');
       }
-    }else{
-      alert("pls enter a prompt")
+
+      const data = response.data;
+      if (data.photo) {
+        setForm({ ...form, image: `data:image/jpeg;base64,${data.photo}` });
+      } else {
+        throw new Error('Image data not found in response');
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setGeneratingImage(false);
     }
-  };
+  } else {
+    alert("Please enter a prompt");
+  }
+};
+
+  
 
   const handleSubmit = () => {};
   const handleChange = (e) => {
