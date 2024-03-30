@@ -7,7 +7,7 @@ function NavBar() {
     <nav className=" relative flex flex-col items-center justify-center ml-52"> 
       <h3 className='text-4xl text-white'>WELCOME TO </h3>
       <h1 className='text-9xl font-bold'>PIXATE</h1>
-     <NavLink to='/pixate'><button className='mt-12'>TRY PIXATE</button></NavLink> 
+     <NavLink to='/generateImage'><button className='mt-12'>TRY PIXATE</button></NavLink> 
     </nav>
     </>
   )

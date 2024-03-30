@@ -3,63 +3,45 @@ import { useNavigate } from "react-router-dom";
 import FormField from "../Components/FormField";
 import Loading from "../Components/Loading";
 import { getRandomPrompt } from "../Utils/randomPrompts";
-import preview from "../Media/preview.png";
+
 import Header from "../Components/Header";
 import axios from 'axios';
 
 function GenerateImage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    name: "",
-    prompt: "",
-    image: "",
+  
+    prompt: ""
+  
   });
   const [generatingImage, setGeneratingImage] = useState(false);
   const [loading, setLoading] = useState(false);
 
 
 
-const generateImage = async () => {
-  if (form.prompt) {
+
+  const generateImage = async () => {
     try {
-      setGeneratingImage(true);
-      const response = await axios.post("http://localhost:5000/api/v1/pixate", {
-        prompt: form.prompt
-      }, {
-        headers: {
-          'Content-Type': "application/json"
-        }
-      });
+      const prompt = "A cute baby sea otter"; // Your prompt here
+  
+      const response = await axios.post('http://localhost:5000/images', { prompt });
       
-      if (!response.status === 200) {
-        throw new Error('Failed to fetch image');
-      }
-
-      const data = response.data;
-      if (data.photo) {
-        setForm({ ...form, image: `data:image/jpeg;base64,${data.photo}` });
-      } else {
-        throw new Error('Image data not found in response');
-      }
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setGeneratingImage(false);
+      console.log(response.data); 
+    } catch(error) {
+      console.log('Error:', error.message);
     }
-  } else {
-    alert("Please enter a prompt");
-  }
-};
-
+  };
+  
+  generateImage();
+  
   
 
   const handleSubmit = () => {};
   const handleChange = (e) => {
-    setForm({...form,[e.target.name]:e.target.value})
+
   };
   const handleSurpriseMe = () => {
-    const randomPrompts = getRandomPrompt(form.prompt)
-    setForm({...form,prompt:randomPrompts})
+
   };
 
   return (
@@ -77,14 +59,7 @@ const generateImage = async () => {
         </div>
         <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-5">
-            <FormField
-              LabelName="Your name"
-              type="text"
-              name="name"
-              placeholder="Your Name?"
-              value={form.name}
-              handleChange={handleChange}
-            />
+           
             <FormField
               LabelName="Prompt"
               type="text"
@@ -95,28 +70,8 @@ const generateImage = async () => {
               isSurpriseMe
               handleSurpriseMe={handleSurpriseMe}
             />
-            <div className="relative mg-grey-50 border border-grey-300 text-grey-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 h-64 p-3 justify-center items-center">
-              {form.photo ? (
-                <img
-                  src={form.photo}
-                  alt={form.prompt}
-                  className="w-full h-full object-contain"
-                />
-              ) : (
-                <img
-                  src={preview}
-                  alt="preview"
-                  className="w-9/12 h-9/12 object-fit opacity-40"
-                />
-              )}
-              {generatingImage && (
-                <div className="absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg">
-                  <Loading />
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="mt-5 flex gap-5">
+           
+         
             <button
               type="button"
               onClick={generateImage}
@@ -124,18 +79,8 @@ const generateImage = async () => {
             >
               {generatingImage ? "Generating..." : "Generate"}
             </button>
-          </div>
-          <div className="mt-10">
-            <p className="mt-2 text-[#666e75] text-[14px]">
-              Share your image with the community
-            </p>
-            <button
-              type="submit"
-              className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-            >
-              {loading ? "Sharing ..." : "Share"}
-            </button>
-          </div>
+            </div>
+         
         </form>
       </section>
     </>

@@ -16,7 +16,7 @@ function Header() {
                 </NavLink>
                 <li className='pr-12'>
                     <button>
-                        {location.pathname === '/pixate' ? <NavLink to="/generateImage">Generate</NavLink> : <NavLink to="/pixate">Home</NavLink> }
+                      <NavLink to="/generateImage">Generate</NavLink> 
                     </button>
                 </li>
             </ul>
