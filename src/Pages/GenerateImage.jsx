@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import axios from 'axios';
-import randomPromt from '../Media/constants/Prompts'; // Ensure the correct import path for prompts
+import randomPromt from '../Media/constants/Prompts'; 
 
 function GenerateImage() {
   const [dataImage, setDataImage] = useState(null);
